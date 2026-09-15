@@ -9,3 +9,4 @@ month = int(sys.argv[1])
 df['month'] = month
 
 df.to_parquet(f"output_{month}.parquet")
+print(df)
