@@ -1,0 +1,44 @@
+services:
+
+  pgdatabase:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ny_taxi
+    volumes:
+      - ny_taxi_postgres_data:/var/lib/postgresql
+    ports:
+      - "5000:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "8085:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  taxi_ingest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      - "--pg-user=root"
+      - "--pg-pass=root"
+      - "--pg-host=host.docker.internal"
+      - "--pg-port=5000"
+      - "--pg-db=ny_taxi"
+      - "--target-table=yellow_taxi_trips"
+      - "--chunksize=100000"
+
+volumes:
+  ny_taxi_postgres_data:
+  pgadmin_data:

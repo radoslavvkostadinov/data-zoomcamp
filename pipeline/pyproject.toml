@@ -5,12 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "click>=8.5.0",
     "jupyter>=1.1.1",
     "jupyter-server>=2.21.0",
     "jupyterlab>=4.6.3",
     "notebook>=7.6.2",
     "pandas>=3.0.5",
-    "psycopg2>=2.9.13",
     "psycopg2-binary>=2.9.13",
     "psycopg[binary,pool]>=3.3.5",
     "pyarrow>=25.0.1",
